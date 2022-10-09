@@ -15,7 +15,7 @@ namespace Store.Domain.Entities
 
 
             Product = product;
-            Price = 0;
+            Price = product?.Price ?? 0;
             Quantity = quantity;
         }
 
