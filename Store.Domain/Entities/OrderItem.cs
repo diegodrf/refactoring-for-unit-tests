@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Flunt.Validations;
 
 namespace Store.Domain.Entities
 {
@@ -10,6 +6,14 @@ namespace Store.Domain.Entities
     {
         public OrderItem(Product product, int quantity)
         {
+            var keyPrefix = nameof(OrderItem) + '.';
+            AddNotifications(new Contract<OrderItem>()
+                .Requires()
+                .IsNotNull(product, keyPrefix + nameof(Product), "Invalid product")
+                .IsGreaterThan(quantity, 0, keyPrefix + nameof(Quantity), "The product quantity must be greater than zero")
+                );
+
+
             Product = product;
             Price = 0;
             Quantity = quantity;

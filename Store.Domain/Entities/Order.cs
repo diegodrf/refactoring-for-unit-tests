@@ -1,4 +1,5 @@
-﻿using Store.Domain.Enums;
+﻿using Flunt.Validations;
+using Store.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace Store.Domain.Entities
         private readonly IList<OrderItem> _items;
         public Order(Customer customer, decimal deliveryFee, Discount? discount = null)
         {
+            AddNotifications(new Contract<Order>()
+                .Requires()
+                .IsNotNull(customer, $"{nameof(Order)}.{nameof(Customer)}", "Invalid client")
+                );
+
             Customer = customer;
             Date = DateTime.Now.Date;
             Number = Guid.NewGuid().ToString("N")[..8];
@@ -38,7 +44,11 @@ namespace Store.Domain.Entities
         public void AddItem(Product product, int quantity)
         {
             var item = new OrderItem(product, quantity);
-            _items.Add(item);
+            if (item.IsValid)
+            {
+                _items.Add(item);
+            }
+               
         }
 
         public decimal Total()
