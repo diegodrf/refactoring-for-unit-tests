@@ -14,15 +14,15 @@ namespace Store.Domain.Commands
     {
         private readonly ICollection<CreateOrderItemCommand> _items;
 
-        public CreateOrderCommand(string customerName, string zipCode, string? promoCode = null)
+        public CreateOrderCommand(string customerDocumentNumber, string zipCode, string? promoCode = null)
         {
-            CustomerName = customerName;
+            CustomerDocumentNumber = customerDocumentNumber;
             ZipCode = zipCode;
             PromoCode = promoCode;
             _items = new List<CreateOrderItemCommand>();
         }
 
-        public string CustomerName { get; private set; }
+        public string CustomerDocumentNumber { get; private set; }
         public string ZipCode { get; private set; }
         public string? PromoCode { get; private set; }
         public IReadOnlyCollection<CreateOrderItemCommand> Items { get { return _items.ToArray(); } }
@@ -36,7 +36,7 @@ namespace Store.Domain.Commands
         {
             AddNotifications(new Contract<CreateOrderCommand>()
                 .Requires()
-                .AreEquals(CustomerName.Length, 11, "Customer", "Invalid customer")
+                .AreEquals(CustomerDocumentNumber.Length, 11, "Customer", "Invalid customer")
                 .AreEquals(ZipCode.Length, 8, "ZipCode", "Invalid zipcode")
                 );
 

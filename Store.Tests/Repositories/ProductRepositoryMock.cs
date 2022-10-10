@@ -33,7 +33,15 @@ namespace Store.Tests.Repositories
 
         public IEnumerable<Product> Get(IEnumerable<Guid> ids) 
         {
-            throw new NotImplementedException();
+            var products =  new List<Product>();
+            foreach(var id in ids)
+            {
+                var product = new Product($"Product {id}", 10, true);
+                product.Id = id;
+                products.Add(product);
+            }
+
+            return products;
         }
         public IEnumerable<Product> GetAll() => _products;
 

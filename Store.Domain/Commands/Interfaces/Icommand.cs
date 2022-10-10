@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Store.Domain.Commands.Interfaces
 {
-    internal interface Icommand
+    public interface Icommand
     {
         void Validate();
     }
